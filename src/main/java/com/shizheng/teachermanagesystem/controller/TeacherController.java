@@ -1,7 +1,9 @@
 package com.shizheng.teachermanagesystem.controller;
 
+import com.shizheng.teachermanagesystem.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,15 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeacherController {
 
 
+    @Autowired
+    private TeacherService teacherService;
     /**
      * 获取教师信息
      * @param id
      * @return
      */
     @ApiOperation("查询某个教师详细")
-    @RequestMapping(value = "/getTeacherInfo",method = RequestMethod.GET)
-    public Object getInfo(String id){
-        return "你好";
+    @RequestMapping(value = "/getTeacherInfo/{id}",method = RequestMethod.GET)
+    public Object getInfo(@PathVariable String id){
+        return teacherService.getTeacherInfo(id);
     }
 
 
