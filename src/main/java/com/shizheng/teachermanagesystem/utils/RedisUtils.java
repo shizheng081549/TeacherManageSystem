@@ -1,10 +1,12 @@
 package com.shizheng.teachermanagesystem.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.apache.commons.lang3.StringUtils;
+
+import javax.annotation.Resource;
 
 /**
  * @author shizheng
@@ -13,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 @Component
 public class RedisUtils {
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     /**
@@ -48,4 +50,13 @@ public class RedisUtils {
         }
         return false;
     }
+
+    /**
+     * 删除redis
+     * @param key
+     */
+    public void delete(String key) {
+        redisTemplate.delete(key);
+    }
+
 }
