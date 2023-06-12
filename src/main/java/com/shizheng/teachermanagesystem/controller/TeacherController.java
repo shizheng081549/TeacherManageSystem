@@ -5,11 +5,14 @@ import com.shizheng.teachermanagesystem.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author shizheng
@@ -20,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeacherController {
 
 
-    @Autowired
+    @Resource
     private TeacherService teacherService;
 
-    @Autowired
+    @Resource
     private RedisUtils redisUtils;
     /**
      * 测试一下
@@ -32,12 +35,15 @@ public class TeacherController {
     @ApiOperation("测试一下")
     @RequestMapping(value = "/helloWard", method = RequestMethod.GET)
     public String deleteTeacher() {
-        String key = "test";
-        String value = redisUtils.get(key).toString();
-        if (StringUtils.isNotEmpty(value)) {
-            return value;
+        String key = "test2";
+        Object obj = redisUtils.get(key);
+        if (Objects.nonNull(obj)) {
+            String value = obj.toString();
+            if (StringUtils.isNotEmpty(value)) {
+                return value;
+            }
         }
-        redisUtils.set(key, "我是时政");
+        redisUtils.set(key, "我是时政",10, TimeUnit.SECONDS);
         return "helloWard";
     }
 

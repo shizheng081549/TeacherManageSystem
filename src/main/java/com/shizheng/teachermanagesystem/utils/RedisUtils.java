@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author shizheng
@@ -36,12 +37,12 @@ public class RedisUtils {
     /**
      * 写入数据
      */
-    public boolean set(final String key, Object value) {
+    public boolean set(final String key, Object value,long timeout, TimeUnit unit) {
         if (StringUtils.isBlank(key)) {
             return false;
         }
         try {
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value, timeout, unit);
             log.info("存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
